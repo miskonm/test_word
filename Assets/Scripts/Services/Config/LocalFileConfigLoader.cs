@@ -3,6 +3,7 @@ using Cysharp.Threading.Tasks;
 using Newtonsoft.Json;
 using TW.Services.Config.Converter;
 using TW.Services.Config.Data;
+using TW.Utility.Extensions;
 using UnityEngine;
 using WordsConfig = TW.Services.Config.Data.WordsConfig;
 
@@ -11,14 +12,14 @@ namespace TW.Services.Config
     public class LocalFileConfigLoader : IConfigLoader
     {
         private const string WordConfigPath = "Configs/WordsConfig";
-        private const string ErrorConfigPath = "Configs/ShakeErrorConfig";
+        private const string ErrorConfigsPath = "Configs/Errors";
         private const int SymbolsCountInWire = 10;
 
         public UniTask<LevelConfig> Load(CancellationToken ct = default)
         {
             var wordJsonAsset = Resources.Load<TextAsset>(WordConfigPath);
-            var errorJsonAsset = Resources.Load<TextAsset>(ErrorConfigPath);
-            var levelConfig = new LevelConfig(MapWord(wordJsonAsset), MapError(errorJsonAsset));
+            var errorJsonAssets = Resources.LoadAll<TextAsset>(ErrorConfigsPath);
+            var levelConfig = new LevelConfig(MapWord(wordJsonAsset), MapError(errorJsonAssets.Random()));
 
             return new UniTask<LevelConfig>(levelConfig);
         }

@@ -19,8 +19,6 @@ namespace TW.Game.Error
 
         public void Perform(ErrorConfig config)
         {
-            Debug.LogError($"Error of type {config.GetType()}");
-
             if (_handlersByType.TryGetValue(config.GetType(), out var handler))
             {
                 handler.Perform(config);

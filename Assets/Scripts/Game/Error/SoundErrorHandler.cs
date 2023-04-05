@@ -1,14 +1,18 @@
-using System;
+using TW.Services.Audio;
 using TW.Services.Config.Data;
-using UnityEngine;
 
 namespace TW.Game.Error
 {
     public class SoundErrorHandler : BaseErrorHandler<SoundErrorConfig>
     {
-        protected override void Perform(SoundErrorConfig errorConfig)
+        private readonly IAudioService _audioService;
+
+        public SoundErrorHandler(IAudioService audioService)
         {
-            Debug.LogError($"SoundErrorHandler '{errorConfig.SoundPath}'");
+            _audioService = audioService;
         }
+
+        protected override void Perform(SoundErrorConfig errorConfig) => 
+            _audioService.PlaySfx(errorConfig.SoundPath);
     }
 }

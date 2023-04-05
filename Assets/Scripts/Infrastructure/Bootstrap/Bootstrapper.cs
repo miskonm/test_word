@@ -1,5 +1,6 @@
 using Cysharp.Threading.Tasks;
 using TW.Infrastructure.SceneLoading;
+using TW.Services.Audio;
 using TW.Services.Config;
 using Zenject;
 
@@ -9,11 +10,13 @@ namespace TW.Infrastructure.Bootstrap
     {
         private readonly ISceneLoader _sceneLoader;
         private readonly IConfigService _configService;
-        
-        public Bootstrapper(ISceneLoader sceneLoader, IConfigService configService)
+        private readonly IAudioService _audioService;
+
+        public Bootstrapper(ISceneLoader sceneLoader, IConfigService configService, IAudioService audioService)
         {
             _sceneLoader = sceneLoader;
             _configService = configService;
+            _audioService = audioService;
         }
         
         public void Initialize()
@@ -23,6 +26,7 @@ namespace TW.Infrastructure.Bootstrap
         
         private async UniTask BootstrapAsync()
         {
+            _audioService.Bootstrap();
             await _configService.LoadConfigs();
             await UniTask.Delay(1000);
             await _sceneLoader.LoadScene(SceneName.Game);

@@ -1,0 +1,3 @@
+{
+	"SoundPath": "Audio/Magic Spell_Simple Swoosh_6"
+}

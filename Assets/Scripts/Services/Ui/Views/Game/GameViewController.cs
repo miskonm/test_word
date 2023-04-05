@@ -1,7 +1,7 @@
 using System;
 using System.Threading;
-using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using TW.Game.Validation;
 using TW.Services.Config.Data;
 using UnityEngine;
@@ -13,6 +13,8 @@ namespace TW.Services.Ui.Views.Game
     {
         private WordsConfig _config;
         private GameLevelCell[][] _cells;
+
+        private Tween _shakeTween;
 
         public event Action<string> OkButtonClickedEvent;
 
@@ -35,6 +37,12 @@ namespace TW.Services.Ui.Views.Game
                 await _cells[lineIndex][columnIndex].ShowFace(token);
             }
         }
+        
+        public void ShakeLevel(float shakeTime)
+        {
+            _shakeTween?.Kill(true);
+            _shakeTween = View.LevelCellParent.DOShakeAnchorPos(shakeTime, View.ShakeStrength);
+        }
 
         protected override void OnShowed()
         {
@@ -48,6 +56,7 @@ namespace TW.Services.Ui.Views.Game
         {
             base.OnHiding();
 
+            _shakeTween?.Kill(true);
             View.OkButton.onClick.RemoveListener(OnButtonClicked);
         }
 
@@ -82,5 +91,7 @@ namespace TW.Services.Ui.Views.Game
 
             OkButtonClickedEvent?.Invoke(View.InputText);
         }
+
+        
     }
 }

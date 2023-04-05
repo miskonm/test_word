@@ -22,13 +22,26 @@ namespace TW.Game
         {
             subContainer.Bind<IGameController>().To<GameController>().AsSingle();
 
-            subContainer.Bind<IErrorModule>().To<MockErrorModule>().AsSingle();
+            subContainer
+                .Bind<IErrorModule>()
+                .FromSubContainerResolve()
+                .ByMethod(InstallError)
+                .AsSingle();
+            
             subContainer.Bind<ISuccessModule>().To<OpenUiSuccessModule>().AsSingle();
             subContainer
                 .Bind<IValidationModule>()
                 .FromSubContainerResolve()
                 .ByMethod(InstallValidation)
                 .AsSingle();
+        }
+
+        private void InstallError(DiContainer subContainer)
+        {
+            subContainer.Bind<IErrorModule>().To<ErrorModule>().AsSingle();
+
+            subContainer.Bind<IErrorHandler>().To<SoundErrorHandler>().AsSingle();
+            subContainer.Bind<IErrorHandler>().To<ShakeErrorHandler>().AsSingle();
         }
 
         private void InstallValidation(DiContainer subController)

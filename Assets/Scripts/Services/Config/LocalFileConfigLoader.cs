@@ -1,6 +1,7 @@
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using Newtonsoft.Json;
+using TW.Services.Config.Converter;
 using TW.Services.Config.Data;
 using UnityEngine;
 using WordsConfig = TW.Services.Config.Data.WordsConfig;
@@ -10,7 +11,7 @@ namespace TW.Services.Config
     public class LocalFileConfigLoader : IConfigLoader
     {
         private const string WordConfigPath = "Configs/WordsConfig";
-        private const string ErrorConfigPath = "";
+        private const string ErrorConfigPath = "Configs/ShakeErrorConfig";
         private const int SymbolsCountInWire = 10;
 
         public UniTask<LevelConfig> Load(CancellationToken ct = default)
@@ -31,7 +32,7 @@ namespace TW.Services.Config
 
             try
             {
-                return JsonConvert.DeserializeObject<ErrorConfig>(errorJsonAsset.text);
+                return JsonConvert.DeserializeObject<ErrorConfig>(errorJsonAsset.text, new ErrorConverter());
             }
             catch (JsonSerializationException)
             {

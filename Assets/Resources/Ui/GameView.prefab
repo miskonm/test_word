@@ -971,3 +971,4 @@ MonoBehaviour:
   _cellPrefab: {fileID: 5466391137863661953, guid: 772d689f08d4244bdba5c772cb84832c, type: 3}
   _okButton: {fileID: 9111325818676378502}
   _inputField: {fileID: 5782277829575990379}
+  _shakeStrength: {x: 4, y: 0}

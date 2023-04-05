@@ -3,7 +3,6 @@ using Cysharp.Threading.Tasks;
 using TW.Game.Validation;
 using TW.Services.Ui;
 using TW.Services.Ui.Views.Game;
-using UnityEngine;
 
 namespace TW.Game.Success
 {
@@ -15,12 +14,8 @@ namespace TW.Game.Success
         {
             _uiService = uiService;
         }
-        public void Perform(ValidationResult validationResult)
-        {
-            Debug.LogError($"Success with data StartPosition = {validationResult.StartPosition}, Length = {validationResult.Length}");
-            
+        public void Perform(ValidationResult validationResult) => 
             OpenUiAsync(validationResult).Forget();
-        }
 
         private async UniTask OpenUiAsync(ValidationResult validationResult)
         {

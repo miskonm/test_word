@@ -47,7 +47,7 @@ namespace TW.Game
         private void InstallValidation(DiContainer subController)
         {
             subController.Bind<IValidationModule>().To<ValidationModule>().AsSingle();
-            subController.Bind<IValidationAlgorithm>().To<SimpleValidationAlgorithm>().AsSingle();
+            subController.Bind<IValidationAlgorithm>().To<IncludeOpenedSimpleWithSavesValidationAlgorithm>().AsSingle();
         }
     }
 }
